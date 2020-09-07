@@ -33,6 +33,7 @@ It's still a work in progress so a bunch of features are missing and expect bugs
  
  # Note
  The database provided has all the required tables for the API to work.
+ Log out and other features are yet to be implemented.
  
  ## Server
  Max length of password must be set to 32 since we'll be comparing hashed passwords and not plain text.
