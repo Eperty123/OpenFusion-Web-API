@@ -7,9 +7,12 @@ A web API for Open Fusion (Fusionfall) written in PHP.
 
 
 # Usage
-Configure settings inside inc/config.php. It's still a work in progress so a bunch of features are missing and expect bugs and unoptimized code.
+## Configure settings inside
+> ### inc/config.php
 
-### Add to your index.js
+It's still a work in progress so a bunch of features are missing and expect bugs and unoptimized code.
+
+## Add to your index.js
     // Load package.json for some info.
 	var packagePath = app.getAppPath();
     var packageJsonPath = path.join(packagePath, 'package.json');
