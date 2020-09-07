@@ -22,14 +22,19 @@ $ENC_SALT = "openFusion is open source! Hooray bois";
 $UNITY_FILE = "http://localhost/ff/main.unity3d";
 
 # Class configuration
+// Database
 $DB = new Database();
 $DB_CONNECTION = $DB = $DB->loadDbFromFile("database.db");
 
+// User
 $USER = new User($DB_CONNECTION);
 $USER->setTable("Accounts");
+$USER->cookie_name = $LOGIN_COOKIE_NAME;
 
+// Authentication / remember me
 $AUTH = new AuthToken($DB_CONNECTION);
 $AUTH->setTable("Auth_Tokens");
+$AUTH->cookie_name = $REMEMBER_COOKIE_NAME;
 
 # Bcrypt encryption configuration
 $bcrypt_options = [
