@@ -21,4 +21,7 @@ Configure settings inside inc/config.php. It's still a work in progress so a bun
     app.setPath('userCache', path.join(app.getPath('cache'), app.getName()));
     app.setAppPath(packagePath);
     
- Add the above code inside the app.on("ready")() method. This allows the client to save caches and cookies.
+ Add the above code inside the app.on("ready", function()) method. This allows the client to save caches and cookies. You can configure the app name in the package.json file.
+ 
+ # Note
+ The database provided has all the required tables for the API to work.
