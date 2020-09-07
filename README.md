@@ -13,7 +13,13 @@ A web API for Open Fusion (Fusionfall) written in PHP.
 It's still a work in progress so a bunch of features are missing and expect bugs and unoptimized code.
 
 ## Add to your index.js
-    // Load package.json for some info.
+
+	// Add underneath var app = require('app');.
+	var path = require('path');
+	var fs = require('fs');
+
+    //  Add inside the app.on("ready", function()) method.
+    //This allows the client to save caches and cookies. You can configure the app name in the package.json file.
 	var packagePath = app.getAppPath();
     var packageJsonPath = path.join(packagePath, 'package.json');
 	var packageJson = JSON.parse(fs.readFileSync(packageJsonPath));
@@ -23,8 +29,7 @@ It's still a work in progress so a bunch of features are missing and expect bugs
     app.setPath('userData', path.join(app.getPath('appData'), app.getName()));
     app.setPath('userCache', path.join(app.getPath('cache'), app.getName()));
     app.setAppPath(packagePath);
-    
- Add the above code inside the app.on("ready", function()) method. This allows the client to save caches and cookies. You can configure the app name in the package.json file.
+   
  
  # Note
  The database provided has all the required tables for the API to work.
