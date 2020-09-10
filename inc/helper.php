@@ -1,5 +1,9 @@
 <?php
-include_once "config.php";
+
+function isGetSet($get)
+{
+    return isset($get);
+}
 
 function isParameterSet($request, $parameter)
 {
@@ -45,11 +49,11 @@ function getSession($name)
 
 function canRememberMe()
 {
-    global $REMEMBER_COOKIE_NAME;
+    global $REMEMBER_ME_COOKIE_NAME;
     global $DB_CONNECTION;
 
-    if (!isSessionSet("UserId") && isCookieSet($REMEMBER_COOKIE_NAME)) {
-        list($selector, $authenticator) = explode(':', getCookie($REMEMBER_COOKIE_NAME));
+    if (!isSessionSet("UserId") && isCookieSet($REMEMBER_ME_COOKIE_NAME)) {
+        list($selector, $authenticator) = explode(':', getCookie($REMEMBER_ME_COOKIE_NAME));
 
         $row = $DB_CONNECTION->prepare("SELECT * FROM Auth_Tokens WHERE Selector = ?");
         $row->bindValue(1, $selector, PDO::PARAM_STR);

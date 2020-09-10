@@ -12,6 +12,7 @@ class User
 
     // Login cookie name.
     public $cookie_name = "FFLogin";
+
     // Login cookie lifetime in hours.
     public $cookie_lifetime = 4;
 

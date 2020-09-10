@@ -1,7 +1,7 @@
 <html>
 <body>
 
-<form action="action.php" method="post">
+<form method="post">
     <input type="hidden" name="action" value="register">
     Username: <input type="text" name="username"><br>
     Password: <input type="password" name="password"><br>

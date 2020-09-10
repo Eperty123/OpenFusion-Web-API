@@ -1,10 +1,3 @@
-<?php
-include_once "inc/helper.php";
-
-// Start game if we are remembered or logged in.
-if (!isCookieSet($LOGIN_COOKIE_NAME)) gotoPage("index.php");
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
