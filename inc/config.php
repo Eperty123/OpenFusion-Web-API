@@ -4,6 +4,9 @@ include_once "class/AuthToken.php";
 include_once "class/Database.php";
 include_once "class/User.php";
 
+# General configuration
+$BASE_PATH = "/";
+
 # Database configuration
 $DB_IP = "127.0.0.1";
 $DB_PORT = 3306;

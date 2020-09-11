@@ -11,7 +11,7 @@ include_once "class/Route.php";
 use Steampixel\Route;
 
 // Define base path.
-define("BASEPATH", "/openFFAPI");
+define("BASEPATH", $BASE_PATH);
 
 // Index route.
 Route::add("/", function () {
