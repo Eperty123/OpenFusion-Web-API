@@ -18,8 +18,8 @@ Route::add("/", function () {
     global $LOGIN_COOKIE_NAME;
     global $REMEMBER_ME_COOKIE_NAME;
     if (isCookieSet($LOGIN_COOKIE_NAME) || isSessionSet($REMEMBER_ME_COOKIE_NAME))
-        gotoPage(BASEPATH . "/game");
-    else gotoPage(BASEPATH . "/login");
+        gotoPage(BASEPATH . "game");
+    else gotoPage(BASEPATH . "login");
 });
 
 // Login route.
