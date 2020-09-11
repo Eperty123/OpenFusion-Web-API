@@ -10,10 +10,14 @@ function MarkProgress(param) {
 
 //allows us to skip the login screen
 function authDoCallback(param) {
+    
+    // Read login cookie.
     var cookie = readCookie("FFLogin");
     var account = JSON.parse(cookie);
 
     var unity = document.getElementById('Unity_embed');
+
+    // Send login info to the client.
     unity.SendMessage("GlobalManager", "SetTEGid", account["username"]);
     unity.SendMessage("GlobalManager", "SetAuthid", account["password"]);
     unity.SendMessage("GlobalManager", "DoAuth", 0);

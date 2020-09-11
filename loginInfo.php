@@ -1,4 +1,4 @@
 <?php
 // Include config file.
-include "inc/config.php";
+require_once "inc/config.php";
 echo $LOGIN_IP;

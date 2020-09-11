@@ -2,9 +2,10 @@
 
 class Server
 {
-    public $Name = "Local Server";
-    public $Ip = "127.0.0.1:8001";
-    public $GameFiles = "http://localhost/ff";
+    public $name = "Local Server";
+    public $ip = "127.0.0.1:8001";
+    public $gamefiles = "http://localhost/ff";
+    public $unityFile = "main.unity3d";
 
     public function __construct()
     {
@@ -14,19 +15,21 @@ class Server
     # Instance methods
     # =================
 
-    public function setServerInfo($name, $ip, $gameFiles)
+    public function setServerInfo($name, $ip, $gameFiles, $unityFile)
     {
-        $this->Name = $name;
-        $this->Ip = $ip;
-        $this->GameFiles = $gameFiles;
+        $this->name = $name;
+        $this->ip = $ip;
+        $this->gamefiles = $gameFiles;
+        $this->unityFile = $unityFile;
     }
 
     public function toJson()
     {
         $array = array(
-            "Name" => $this->Name,
-            "Ip" => $this->Ip,
-            "GameFiles" => $this->GameFiles
+            "Name" => $this->name,
+            "Ip" => $this->ip,
+            "GameFiles" => $this->gamefiles,
+            "UnityFile" => $this->unityFile
         );
         return json_encode($array);
     }
@@ -40,7 +43,8 @@ class Server
         $instance = new Server();
         if (!empty($json)) {
             $decoded = json_decode($json);
-            $instance->setServerInfo($decoded["Name"], $decoded["Ip"], $decoded["GameFiles"]);
+            $instance->setServerInfo($decoded["Name"], $decoded["Ip"],
+                $decoded["GameFiles"], $decoded["UnityFile"]);
         }
         return $instance;
     }
