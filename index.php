@@ -1,7 +1,3 @@
 <?php
-include_once "inc/helper.php";
-// Start game if we are remembered or logged in.
-// Otherwise log in.
-if (canRememberMe() || isCookieSet($LOGIN_COOKIE_NAME)) gotoPage("/game");
-else gotoPage("/login");
-?>
+// Use the api instead.
+include_once "api.php";

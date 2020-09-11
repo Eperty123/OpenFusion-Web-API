@@ -10,6 +10,18 @@ include_once "class/Route.php";
 // Use this namespace.
 use Steampixel\Route;
 
+// Define base path.
+define("BASEPATH", "/openFFAPI");
+
+// Index route.
+Route::add("/", function () {
+    global $LOGIN_COOKIE_NAME;
+    global $REMEMBER_ME_COOKIE_NAME;
+    if (isCookieSet($LOGIN_COOKIE_NAME) || isSessionSet($REMEMBER_ME_COOKIE_NAME))
+        gotoPage(BASEPATH . "/game");
+    else gotoPage(BASEPATH . "/login");
+});
+
 // Login route.
 Route::add("/login", function () {
 
@@ -155,6 +167,26 @@ Route::add("/register", function () {
     echo $response;
 }, ['get', 'post']);
 
+// Play game route.
+Route::add("/game", function () {
+    global $LOGIN_COOKIE_NAME;
+    global $REMEMBER_ME_COOKIE_NAME;
+
+    $response = "";
+    if (!isCookieSet($LOGIN_COOKIE_NAME) || !isSessionSet($REMEMBER_ME_COOKIE_NAME))
+        $response = json_encode(array("error" => "You are not logged in. Please do so."));
+});
+
+// Log out route.
+Route::add("/logout", function () {
+    global $LOGIN_COOKIE_NAME;
+    $response = "";
+    if (isCookieSet($LOGIN_COOKIE_NAME)) {
+        destroySession($LOGIN_COOKIE_NAME);
+        $response = json_encode(array("message" => "You have been logged out."));
+    } else $response = json_encode(array("error" => "You are not logged in."));
+    echo $response;
+});
 
 // Use the path as base path for urls. This must lead to the php file.
-Route::run('/');
+Route::run(BASEPATH);

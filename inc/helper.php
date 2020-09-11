@@ -1,5 +1,7 @@
 <?php
 
+// Config file must be included!
+
 function isGetSet($get)
 {
     return isset($get);
@@ -45,6 +47,12 @@ function isSessionSet($name)
 function getSession($name)
 {
     return $_SESSION[$name];
+}
+
+function destroySession($name)
+{
+    if (isSessionSet($name))
+        unset($_SESSION[$name]);
 }
 
 function canRememberMe()
