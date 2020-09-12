@@ -1,3 +1,3 @@
 <?php
 // Use the api instead.
-include_once "api.php";
+require_once "api.php";

@@ -6,6 +6,13 @@ require_once "class/User.php";
 
 # General configuration
 $BASE_PATH = "/";
+$API_PATH = "/api/";
+
+// Define base path.
+define("BASEPATH", $BASE_PATH);
+define("APIPATH", $API_PATH);
+
+# API configuration
 
 # Database configuration
 $DB_IP = "127.0.0.1";
@@ -23,7 +30,7 @@ $REMEMBER_ME_COOKIE_NAME = "FFRemember";
 // Name of the server.
 $SERVER_NAME = "Local Server";
 // Link to the game files.
-$GAMEFILES_LINK = "http://localhost/ff";
+$GAMEFILES_LINK = "http://localhost/ff/";
 // Login server ip and port.
 $LOGIN_IP = "127.0.0.1:8001";
 // Link to the game loader Unity file.

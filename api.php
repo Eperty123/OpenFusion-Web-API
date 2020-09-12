@@ -3,24 +3,13 @@
 require_once "class/AuthToken.php";
 require_once "class/Database.php";
 require_once "class/Route.php";
+require_once "class/Server.php";
 require_once "class/User.php";
 require_once "inc/config.php";
 require_once "inc/helper.php";
 
 // Use this namespace.
 use Steampixel\Route;
-
-// Define base path.
-define("BASEPATH", $BASE_PATH);
-
-// Index route.
-Route::add("/", function () {
-    global $LOGIN_COOKIE_NAME;
-    global $REMEMBER_ME_COOKIE_NAME;
-    if (isCookieSet($LOGIN_COOKIE_NAME) || isSessionSet($REMEMBER_ME_COOKIE_NAME))
-        gotoPage(BASEPATH . "game");
-    else gotoPage(BASEPATH . "login");
-});
 
 // Login route.
 Route::add("/login", function () {
@@ -37,11 +26,11 @@ Route::add("/login", function () {
     // Check if the url has the "action" parameter.
     if (isParameterSet($request, "action")) {
 
-        // Assign header to be a type of json.
-        header("Content-Type: application/json");
-
         // Get the action's action type.
         $action = getParameter($request, "action");
+
+        // Assign header to be a type of json.
+        header("Content-Type: application/json");
 
         switch ($action) {
             case "login":
@@ -94,11 +83,16 @@ Route::add("/login", function () {
                 else $response = json_encode(array("error" => "No username and password supplied."));
                 break;
         }
-    } else require_once "login.php";
+    } else $response = json_encode(array("error" => "Wrong login parameter."));
+
+    // Set the header depending on whether the response is empty or not.
+    if (!empty($response)) header("Content-Type: application/json");
+    else header("Content-Type: text/html");
 
     // Show the response.
     echo $response;
-}, ['get', 'post']);
+
+}, ["get", "post"]);
 
 // Registration route.
 Route::add("/register", function () {
@@ -114,9 +108,6 @@ Route::add("/register", function () {
 
     // Check if the url has the "action" parameter.
     if (isParameterSet($request, "action")) {
-
-        // Assign header to be a type of json.
-        header("Content-Type: application/json");
 
         // Get the action's action type.
         $action = getParameter($request, "action");
@@ -180,32 +171,75 @@ Route::add("/register", function () {
                     $response = json_encode(array("error" => "No username and password supplied."));
                 break;
         }
-    } else require_once "register.php";
+    } else $response = json_encode(array("error" => "Wrong registration parameter."));
+
+    // Set the header depending on whether the response is empty or not.
+    if (!empty($response)) header("Content-Type: application/json");
+    else header("Content-Type: text/html");
 
     // Show the response.
     echo $response;
-}, ['get', 'post']);
+
+}, ["get", "post"]);
 
 // Play game route.
 Route::add("/game", function () {
     global $LOGIN_COOKIE_NAME;
-    global $REMEMBER_ME_COOKIE_NAME;
-
     $response = "";
-    if (!isCookieSet($LOGIN_COOKIE_NAME) || !isSessionSet($REMEMBER_ME_COOKIE_NAME))
-        $response = json_encode(array("error" => "You are not logged in. Please do so."));
+
+    if (!isCookieSet($LOGIN_COOKIE_NAME))
+        $response = json_encode(array("error" => "You are not logged in."));
+    else require_once "game.php";
+
+    // Set the header depending on whether the response is empty or not.
+    if (!empty($response)) header("Content-Type: application/json");
+    else header("Content-Type: text/html");
+
+    // Output the response.
+    echo $response;
+
 });
 
 // Log out route.
 Route::add("/logout", function () {
     global $LOGIN_COOKIE_NAME;
     $response = "";
+
     if (isCookieSet($LOGIN_COOKIE_NAME)) {
         destroySession($LOGIN_COOKIE_NAME);
         $response = json_encode(array("message" => "You have been logged out."));
     } else $response = json_encode(array("error" => "You are not logged in."));
+
+    // Set the header depending on whether the response is empty or not.
+    if (!empty($response)) header("Content-Type: application/json");
+    else header("Content-Type: text/html");
+
+    // Output the response.
     echo $response;
 });
 
+// Server info route.
+Route::add("/serverinfo", function () {
+    global $SERVER_NAME;
+    global $LOGIN_IP;
+    global $GAMEFILES_LINK;
+    global $UNITY_FILE;
+
+    $response = "";
+
+    $server = new Server();
+    $server->setServerInfo($SERVER_NAME, $LOGIN_IP, $GAMEFILES_LINK, $UNITY_FILE);
+    $response = $server->toJson();
+
+    // Set the header depending on whether the response is empty or not.
+    if (!empty($response)) header("Content-Type: application/json");
+    else header("Content-Type: text/html");
+
+    // Output the server info as response.
+    echo $response;
+
+});
+
+
 // Use the path as base path for urls. This must lead to the php file.
-Route::run(BASEPATH);
+Route::run(APIPATH);
