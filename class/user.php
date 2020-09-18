@@ -106,6 +106,6 @@ class User
     {
         $response = json_encode(array("action" => "login", "username" => $this->username, "password" => $this->password, "error"));
         // Set the cookie for the client to login properly.
-        setcookie($this->cookie_name, $response, time() + (60 * 10 * $this->cookie_lifetime));
+        setcookie($this->cookie_name, $response, time() + (60 * 10 * $this->cookie_lifetime), "/");
     }
 }

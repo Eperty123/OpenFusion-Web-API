@@ -1,9 +1,17 @@
+<?php
+// Require config file.
+include "inc/config.php";
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>OpenFusion</title>
-    <link rel="stylesheet" href="css/style.css"/>
-    <script type="text/javascript" src="js/unity.js"></script>
+    <!-- Css -->
+    <link rel="stylesheet" href="<?php echo BASEPATH . 'css/style.css'?>"/>
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="<?php echo BASEPATH . 'js/unity.js'?>"></script>
 </head>
 <body onresize="OnResize()">
 <div id="container">

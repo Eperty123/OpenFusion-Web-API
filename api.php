@@ -29,9 +29,6 @@ Route::add("/login", function () {
         // Get the action's action type.
         $action = getParameter($request, "action");
 
-        // Assign header to be a type of json.
-        header("Content-Type: application/json");
-
         switch ($action) {
             case "login":
 
@@ -65,17 +62,17 @@ Route::add("/login", function () {
                             if ($AUTH->authTokenExists()) {
                                 // Generate new token for this user.
                                 $AUTH->updateauthToken();
-                                // Set the auth token in a session.
-                                $AUTH->setauthTokenSession();
                             } else {
                                 $AUTH->createauthToken();
-                                // Set the auth token in a session.
-                                $AUTH->setauthTokenSession();
                             }
+
+                            // Set the auth token in a session.
+                            $AUTH->setauthTokenSession();
                         }
 
                         // Then at last add the login complete response!
                         $response = json_encode(array("message" => "You have been logged in."));
+                        gotoPage("game");
                     } // If not...
                     else $response = json_encode(array("error" => "No matching account was found."));
 
@@ -151,13 +148,12 @@ Route::add("/register", function () {
                             if ($AUTH->authTokenExists()) {
                                 // Generate new token for this user.
                                 $AUTH->updateauthToken();
-                                // Set the auth token in a session.
-                                $AUTH->setauthTokenSession();
                             } else {
                                 $AUTH->createauthToken();
-                                // Set the auth token in a session.
-                                $AUTH->setauthTokenSession();
                             }
+
+                            // Set the auth token in a session.
+                            $AUTH->setauthTokenSession();
                         }
 
 
@@ -189,7 +185,8 @@ Route::add("/game", function () {
 
     if (!isCookieSet($LOGIN_COOKIE_NAME))
         $response = json_encode(array("error" => "You are not logged in."));
-    else require_once "game.php";
+    //else require_once "game.php";
+    else gotoPage("../game.php");
 
     // Set the header depending on whether the response is empty or not.
     if (!empty($response)) header("Content-Type: application/json");
@@ -206,7 +203,7 @@ Route::add("/logout", function () {
     $response = "";
 
     if (isCookieSet($LOGIN_COOKIE_NAME)) {
-        destroySession($LOGIN_COOKIE_NAME);
+        destroyCookie($LOGIN_COOKIE_NAME);
         $response = json_encode(array("message" => "You have been logged out."));
     } else $response = json_encode(array("error" => "You are not logged in."));
 

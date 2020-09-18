@@ -125,7 +125,8 @@ class AuthToken
         setcookie(
             $this->cookie_name,
             $this->selector . ":" . base64_encode($this->authenticator),
-            time() + (60 * 10 * $this->cookie_lifetime)
+            time() + (60 * 10 * $this->cookie_lifetime),
+            "/"
         );
     }
 }

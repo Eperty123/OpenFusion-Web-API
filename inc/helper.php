@@ -49,6 +49,12 @@ function getSession($name)
     return $_SESSION[$name];
 }
 
+function destroyCookie($name)
+{
+    if (isCookieSet($name))
+        setcookie($name, "", time(), "/");
+}
+
 function destroySession($name)
 {
     if (isSessionSet($name))

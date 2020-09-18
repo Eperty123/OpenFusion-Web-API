@@ -30,7 +30,8 @@ $REMEMBER_ME_COOKIE_NAME = "FFRemember";
 // Name of the server.
 $SERVER_NAME = "Local Server";
 // Link to the game files.
-$GAMEFILES_LINK = "http://localhost/ff/";
+$GAMEFILES_LINK = "http://ht.cdn.turner.com/ff/big/beta-20100104/"
+//$GAMEFILES_LINK = "http://openffapi/ff/";
 // Login server ip and port.
 $LOGIN_IP = "127.0.0.1:8001";
 // Link to the game loader Unity file.

@@ -1,3 +1,5 @@
+var ipc = require("ipc")
+
 function OnResize() {
     var unity = document.getElementById('Unity_embed');
     unity.style.width = window.innerWidth + 'px';
@@ -6,6 +8,29 @@ function OnResize() {
 
 // Unity invoked MarkProgress method.
 function MarkProgress(param) {
+}
+
+// Unity invoked MarkProgress method.
+function MarkProgress(param) {}
+
+function redirect(html) {
+    ipc.send("exit", 0);
+}
+
+function HomePage(param) {
+    ipc.send("exit", 0);
+}
+
+function PageOut(param) {
+    ipc.send("exit", 0);
+}
+
+function updateSocialOptions(param) {
+    ipc.send("exit", 0);
+}
+
+function PayPage(param) {
+    ipc.send("exit", 0);
 }
 
 //allows us to skip the login screen
