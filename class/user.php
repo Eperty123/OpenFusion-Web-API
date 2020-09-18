@@ -102,9 +102,15 @@ class User
         return isVariableSet($stmt->fetch(PDO::FETCH_ASSOC));
     }
 
+    public function getUserTokenAsJson() {
+        //$response = json_encode(array("action" => "login", "username" => $this->username, "password" => $this->password, "error"));
+        $response = json_encode(array("action" => "login", "username" => $this->username, "error"));
+        return $response;
+    }
+
     public function setuserTokenSession()
     {
-        $response = json_encode(array("action" => "login", "username" => $this->username, "password" => $this->password, "error"));
+        $response = $this->getUserTokenAsJson();
         // Set the cookie for the client to login properly.
         setcookie($this->cookie_name, $response, time() + (60 * 10 * $this->cookie_lifetime), "/");
     }

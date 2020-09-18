@@ -10,6 +10,7 @@ $API_PATH = "/api/";
 
 // Define base path.
 define("BASEPATH", $BASE_PATH);
+// Define virtual api path.
 define("APIPATH", $API_PATH);
 
 # API configuration
@@ -21,6 +22,10 @@ $DB_USER = "root";
 $DB_PASSWORD = "";
 
 # Cookie configuration
+
+// 0 - Api
+// 1 - In-game client
+$LOGIN_TYPE = 1;
 // The name for the login cookie.
 $LOGIN_COOKIE_NAME = "FFLogin";
 // The name for the remember me cookie.
@@ -30,8 +35,8 @@ $REMEMBER_ME_COOKIE_NAME = "FFRemember";
 // Name of the server.
 $SERVER_NAME = "Local Server";
 // Link to the game files.
-$GAMEFILES_LINK = "http://ht.cdn.turner.com/ff/big/beta-20100104/"
-//$GAMEFILES_LINK = "http://openffapi/ff/";
+//$GAMEFILES_LINK = "http://ht.cdn.turner.com/ff/big/beta-20100104/"
+$GAMEFILES_LINK = "http://openffapi/ff/";
 // Login server ip and port.
 $LOGIN_IP = "127.0.0.1:8001";
 // Link to the game loader Unity file.

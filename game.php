@@ -1,6 +1,7 @@
 <?php
 // Require config file.
 include "inc/config.php";
+include "inc/helper.php";
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +16,55 @@ include "inc/config.php";
 </head>
 <body onresize="OnResize()">
 <div id="container">
+
+    <!-- Server 2 client info exchange -->
+    <script language="javascript" type="text/javascript">
+        //allows us to skip the login screen
+        function authDoCallback(param) {
+
+            var unity = document.getElementById('Unity_embed');
+
+            <?php
+            // The resulting user info.
+            $result = "";
+            $username = "";
+            $password = "";
+
+            switch($LOGIN_TYPE) {
+
+                case 0:
+                    // Read the username from the cookie and get user server-side.
+                    // Probably more secure than to store the password directly into the cookie.
+                    if(isCookieSet($LOGIN_COOKIE_NAME)) {
+                        // Now get the user info directly from the database.
+                        $cookie_username = json_decode(getCookie($LOGIN_COOKIE_NAME), true);
+
+                        // Only continue if the username is not empty.
+                        if(isVariableSet($cookie_username)) {
+                            $username = $cookie_username["username"];
+                            $USER->setUserInfo($username, null, null);
+
+                            // Now we've got it, send it to client.
+                            $result = $USER->getUser();
+
+                            // Assign the appropriate variables.
+                            $password = $result["Password"];
+                        }
+                    }
+                    break;
+            }
+            ?>
+
+            <?php if($LOGIN_TYPE != 1) { ?>
+            unity.SendMessage("GlobalManager", "SetTEGid", "<?php echo $username ?>");
+            unity.SendMessage("GlobalManager", "SetAuthid", "<?php echo $password ?>");
+            <?php } ?>
+            unity.SendMessage("GlobalManager", "DoAuth", 0);
+
+
+        }
+    </script>
+
     <div id="client">
         <object classid="clsid:444785F1-DE89-4295-863A-D46C3A781394"
                 codebase="undefined/UnityWebPlayer.cab#version=2,0,0,0" id="Unity_object" width="1264" height="661">
