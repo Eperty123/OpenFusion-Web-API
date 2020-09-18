@@ -44,8 +44,7 @@ As it is right now you have to manually visit either login.php or register.php a
    
  
  # Note
- The database provided has all the required tables for the API to work.
- Log out and other features are yet to be implemented.
+ The database provided has all the required tables for the API to work. Other features are yet to be implemented.
  
  ## Server
  Max length of password must be set to 32 since we'll be comparing hashed passwords and not plain text.
