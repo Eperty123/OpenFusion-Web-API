@@ -18,7 +18,7 @@ When you get inside config.php you have to change the value inside BASE_PATH whi
 then the value is "/openffapi/". Remember to add the dash at the end! You must also change the:
 > RewriteBase /
 
-inside .htaccess to the same path otherwise the api will redirect you to weird places. No quotes. I repeat absolutely no quotes!
+inside .htaccess to the same path otherwise the api will redirect you to weird places. No quotes. I repeat absolutely no quotes! The .htaccess is also extremely important! If you don't have that please get it as the api heavily relies on it. Once you have it place it in exact same place as api.php.
 
 The API_PATH is a virtual path in which you'd call any of the api functions. If you change it to say "bieber" then in order to call any api functions you'd have to go to http://localhost/bieber/<api function>. Default is "api".
 	
