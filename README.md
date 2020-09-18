@@ -12,6 +12,18 @@ A web API for Open Fusion (Fusionfall) written in PHP.
 
 It's still a work in progress so a bunch of features are missing and expect bugs and unoptimized code.
 
+When you get inside config.php you have to change the value inside BASE_PATH which is the path you've placed the api at (the root folder). So you if have this:
+> http://localhost/openffapi
+
+then the value is "/openffapi/". Remember to add the dash at the end! You must also change the:
+> RewriteBase /
+
+inside .htaccess to the same path otherwise the api will redirect you to weird places. No quotes. I repeat absolutely no quotes!
+
+The API_PATH is a virtual path in which you'd call any of the api functions. If you change it to say "bieber" then in order to call any api functions you'd have to go to http://localhost/bieber/<api function>. Default is "api".
+	
+As it is right now you have to manually visit either login.php or register.php as the api only handles very basic stuff. You can check out how things work in api.php.
+
 ## Add to your index.js
 
 	// Add underneath var app = require('app');.
