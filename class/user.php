@@ -70,7 +70,7 @@ class User
 
     public function updateUser()
     {
-        if (!$this->userExists()) {
+        if ($this->userExists()) {
             $query = "UPDATE $this->table SET Login = ?, Password = ?, LastLogin = ? WHERE Login = ?";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(1, $this->username, PDO::PARAM_STR);
@@ -83,9 +83,21 @@ class User
         }
     }
 
+    public function updateUserLoginSession() {
+        if ($this->userExists()) {
+            $query = "UPDATE $this->table SET LastLogin = ? WHERE Login = ?";
+            $stmt = $this->connection->prepare($query);
+            $stmt->bindValue(1, time(), PDO::PARAM_INT);
+            $stmt->bindValue(2, $this->username, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return $stmt;
+        }
+    }
+
     public function deleteUser()
     {
-        if (!$this->userExists()) {
+        if ($this->userExists()) {
             $query = "DELETE FROM $this->table WHERE Login = ?";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(1, $this->username, PDO::PARAM_STR);

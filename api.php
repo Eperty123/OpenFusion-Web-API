@@ -53,7 +53,7 @@ Route::add("/login", function () {
 
                         // Set the login session.
                         $USER->setuserTokenSession();
-                        $USER->updateUser();
+                        $USER->updateUserLoginSession();
 
                         // If user should be remembered.
                         if ($rememberme) {
