@@ -12,7 +12,7 @@ class AuthToken
     // Remember me cookie name.
     public $cookie_name = "FFRemember";
     // Remember me cookie lifetime in hours.
-    public $cookie_lifetime = 4;
+    public $cookie_lifetime = 876581277;
 
     public $table;
     private $connection;
@@ -42,7 +42,7 @@ class AuthToken
 
     public function createauthToken()
     {
-        if (!$this->authTokenExists()) {
+        if (!$this->authTokenUserIdExists()) {
             // Generate new token for this session.
             $this->generateToken();
 
@@ -68,7 +68,7 @@ class AuthToken
         $this->expiration = date('Y-m-d\TH:i:s', time() + (60 * $this->cookie_lifetime));
     }
 
-    public function getauthToken()
+    public function getauthTokenByUserId()
     {
         $query = "SELECT * FROM $this->table WHERE UserId = ?";
         $stmt = $this->connection->prepare($query);
@@ -78,9 +78,19 @@ class AuthToken
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getauthTokenBySelector()
+    {
+        $query = "SELECT * FROM $this->table WHERE Selector = ?";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindValue(1, $this->selector, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function updateauthToken()
     {
-        if ($this->authTokenExists()) {
+        if ($this->authTokenUserIdExists()) {
             // Generate new token for this session.
             $this->generateToken();
 
@@ -97,9 +107,9 @@ class AuthToken
         }
     }
 
-    public function deleteauthToken()
+    public function deleteauthTokenByUserId()
     {
-        if (!$this->authTokenExists()) {
+        if (!$this->authTokenUserIdExists()) {
             $query = "DELETE FROM $this->table WHERE UserId = ?";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(1, $this->username, PDO::PARAM_STR);
@@ -109,11 +119,20 @@ class AuthToken
         }
     }
 
-    public function authTokenExists()
+    public function authTokenUserIdExists()
     {
         $query = "SELECT * FROM $this->table WHERE UserId = ?";
         $stmt = $this->connection->prepare($query);
         $stmt->bindValue(1, $this->username, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return isVariableSet($stmt->fetch(PDO::FETCH_ASSOC));
+    }
+
+    public function authTokenSelectorExists() {
+        $query = "SELECT * FROM $this->table WHERE Selector = ?";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindValue(1, $this->selector, PDO::PARAM_STR);
         $stmt->execute();
 
         return isVariableSet($stmt->fetch(PDO::FETCH_ASSOC));
@@ -125,7 +144,7 @@ class AuthToken
         setcookie(
             $this->cookie_name,
             $this->selector . ":" . base64_encode($this->authenticator),
-            time() + (60 * 10 * $this->cookie_lifetime),
+            time() + (60 * $this->cookie_lifetime),
             "/"
         );
     }

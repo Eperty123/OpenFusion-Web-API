@@ -51,6 +51,32 @@ include "inc/helper.php";
                             $password = $result["Password"];
                         }
                     }
+                    // If we've set the remember me, go find the cookie for it
+                    // and login through that.
+                    else if(isCookieSet($REMEMBER_ME_COOKIE_NAME)) {
+                        // Now get the user info directly from the database.
+                        $cookie_selector = getCookie($REMEMBER_ME_COOKIE_NAME);
+
+
+                        // Only continue if the username is not empty.
+                        if(isVariableSet($cookie_selector)) {
+                            $AUTH->selector = explode(":", $cookie_selector)[0];
+
+                            if($AUTH->authTokenSelectorExists()) {
+                                // Fetch the selector.
+                                $result = $AUTH->getauthTokenBySelector();
+                                $username = $result["UserId"];
+
+                                $USER->setUserInfo($username, null, null);
+
+                                // Now we've got it, send it to client.
+                                $result = $USER->getUser();
+
+                                // Assign the appropriate variables.
+                                $password = $result["Password"];
+                            }
+                        }
+                    }
                     break;
             }
             ?>

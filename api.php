@@ -53,13 +53,14 @@ Route::add("/login", function () {
 
                         // Set the login session.
                         $USER->setuserTokenSession();
+                        $USER->updateUser();
 
                         // If user should be remembered.
                         if ($rememberme) {
 
                             // Create or update auth token to skip login
                             // in future login attempts.
-                            if ($AUTH->authTokenExists()) {
+                            if ($AUTH->authTokenUserIdExists()) {
                                 // Generate new token for this user.
                                 $AUTH->updateauthToken();
                             } else {
@@ -145,7 +146,7 @@ Route::add("/register", function () {
 
                             // Create or update auth token to skip login
                             // in future login attempts.
-                            if ($AUTH->authTokenExists()) {
+                            if ($AUTH->authTokenUserIdExists()) {
                                 // Generate new token for this user.
                                 $AUTH->updateauthToken();
                             } else {

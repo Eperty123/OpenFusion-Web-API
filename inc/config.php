@@ -25,7 +25,7 @@ $DB_PASSWORD = "";
 
 // 0 - Api
 // 1 - In-game client
-$LOGIN_TYPE = 1;
+$LOGIN_TYPE = 0;
 // The name for the login cookie.
 $LOGIN_COOKIE_NAME = "FFLogin";
 // The name for the remember me cookie.

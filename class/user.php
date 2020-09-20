@@ -14,7 +14,7 @@ class User
     public $cookie_name = "FFLogin";
 
     // Login cookie lifetime in hours.
-    public $cookie_lifetime = 4;
+    public $cookie_lifetime = 5;
 
     public function __construct($db_connection)
     {
@@ -45,11 +45,13 @@ class User
     public function createUser()
     {
         if (!$this->userExists()) {
-            $query = "INSERT INTO $this->table (Login, Password, Selected) VALUES (?,?,?)";
+            $query = "INSERT INTO $this->table (Login, Password, Selected, Created, LastLogin) VALUES (?,?,?,?,?)";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(1, $this->username, PDO::PARAM_STR);
             $stmt->bindValue(2, $this->password, PDO::PARAM_STR);
             $stmt->bindValue(3, 0, PDO::PARAM_INT);
+            $stmt->bindValue(4, time(), PDO::PARAM_INT);
+            $stmt->bindValue(5, time(), PDO::PARAM_INT);
             $stmt->execute();
 
             return $stmt;
@@ -69,11 +71,12 @@ class User
     public function updateUser()
     {
         if (!$this->userExists()) {
-            $query = "UPDATE $this->table SET Login = ?, Password = ? WHERE Login = ?";
+            $query = "UPDATE $this->table SET Login = ?, Password = ?, LastLogin = ? WHERE Login = ?";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(1, $this->username, PDO::PARAM_STR);
             $stmt->bindValue(2, $this->password, PDO::PARAM_STR);
             $stmt->bindValue(3, $this->username, PDO::PARAM_STR);
+            $stmt->bindValue(4, time(), PDO::PARAM_INT);
             $stmt->execute();
 
             return $stmt;
@@ -112,6 +115,6 @@ class User
     {
         $response = $this->getUserTokenAsJson();
         // Set the cookie for the client to login properly.
-        setcookie($this->cookie_name, $response, time() + (60 * 10 * $this->cookie_lifetime), "/");
+        setcookie($this->cookie_name, $response, time() + (60 * $this->cookie_lifetime), "/");
     }
 }

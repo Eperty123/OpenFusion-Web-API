@@ -85,3 +85,17 @@ function gotoPage($name)
 {
     header("Location: " . $name);
 }
+
+function hoursToMinutes($hours)
+{
+    $minutes = 0;
+    return $hours * 60 + $minutes;
+}
+
+// Transform minutes like "105" into hours like "1:45".
+function minutesToHours($minutes)
+{
+    $hours = (int)($minutes / 60);
+    $minutes -= $hours * 60;
+    return $minutes;
+}
