@@ -71,12 +71,10 @@ class User
     public function updateUser()
     {
         if ($this->userExists()) {
-            $query = "UPDATE $this->table SET Login = ?, Password = ?, LastLogin = ? WHERE Login = ?";
+            $query = "UPDATE $this->table SET Password = ? WHERE Login = ?";
             $stmt = $this->connection->prepare($query);
-            $stmt->bindValue(1, $this->username, PDO::PARAM_STR);
-            $stmt->bindValue(2, $this->password, PDO::PARAM_STR);
-            $stmt->bindValue(3, $this->username, PDO::PARAM_STR);
-            $stmt->bindValue(4, time(), PDO::PARAM_INT);
+            $stmt->bindValue(1, $this->password, PDO::PARAM_STR);
+            $stmt->bindValue(2, $this->username, PDO::PARAM_STR);
             $stmt->execute();
 
             return $stmt;
