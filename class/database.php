@@ -13,6 +13,11 @@ class Database
     public $db_port = 3306;
     private $connection;
 
+    /**
+     * Connect to the database.
+     *
+     * @return PDO|null Returns the connection.
+     */
     public function connect()
     {
         $this->connection = null;
@@ -26,6 +31,15 @@ class Database
         return $this->connection;
     }
 
+    /**
+     * Set connection info.
+     *
+     * @param $host The host.
+     * @param $db_name Database name.
+     * @param $user Database user.
+     * @param $password Database user password.
+     * @param int $port Database port.
+     */
     public function setConnectionInfo($host, $db_name, $user, $password, $port = 3306)
     {
         $this->host = $host;
@@ -35,6 +49,12 @@ class Database
         $this->db_port = $port;
     }
 
+    /**
+     * Load a database from file.
+     *
+     * @param $file Database file.
+     * @return PDO|SQLite3.
+     */
     public function loadDbFromFile($file)
     {
         $this->connection = null;
@@ -46,5 +66,43 @@ class Database
             echo "Load Db error: " . $e->getMessage();
         }
         return $this->connection;
+    }
+
+    /**
+     * Import a sql file.
+     *
+     * @param $sql_file The sql file.
+     */
+    public function importSql($sql_file) {
+
+        // If no database is loaded, don't do anything.
+        if($this->connection == null) return;
+
+        // Temporary variable, used to store current query
+        $templine = '';
+
+        // Read in entire file
+        $lines = file($sql_file);
+
+        // Loop through each line
+        foreach ($lines as $line) {
+
+            // Skip it if it's a comment
+            if (substr($line, 0, 2) == '--' || $line == '')
+                continue;
+
+            // Add this line to the current segment
+            $templine .= $line;
+
+            // If it has a semicolon at the end, it's the end of the query
+            if (substr(trim($line), -1, 1) == ';') {
+
+                // Perform the query
+                $this->connection->exec($templine);
+
+                // Reset temp variable to empty
+                $templine = '';
+            }
+        }
     }
 }
