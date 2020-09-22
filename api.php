@@ -158,7 +158,7 @@ Route::add("/register", function () {
                         $response = json_encode(array("message" => "Account for: $username is now created."));
 
                     } // If it does, tell the user that the username is already taken.
-                    else $response = json_encode(array("error" => "Account for: $username already exists. Try another username."));
+                    else $response = json_encode(array("error" => "Username: $username already exists. Try another username."));
                 } // If the fields are empty, tell the user.
                 else
                     $response = json_encode(array("error" => "No username and password supplied."));
