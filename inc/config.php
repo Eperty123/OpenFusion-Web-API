@@ -65,10 +65,3 @@ $AUTH = new AuthToken($DB_CONNECTION);
 $AUTH->setTable("Auth_Tokens");
 // Then its remember me cookie name.
 $AUTH->cookie_name = $REMEMBER_ME_COOKIE_NAME;
-
-# Bcrypt encryption configuration
-$BCRYPT_OPTIONS = [
-    // The salt for encrypting strings (passwords). Needs to be atleast 20 characters long.
-    'salt' => $ENC_SALT,
-    'cost' => 11
-];

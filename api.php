@@ -41,11 +41,9 @@ Route::add("/login", function () {
                 // If username and password fields aren't empty.
                 if (!empty($username) && !empty($password)) {
                     // Username and password are not empty, continue...
-                    $hashed_pass = password_hash($password, PASSWORD_BCRYPT, $BCRYPT_OPTIONS);
-                    //echo $password . " hashed:" . $hashed_pass;
 
                     // Fetch the account from database.
-                    $USER->setUserInfo($username, $hashed_pass, null);
+                    $USER->setUserInfo($username, $password, null);
                     $AUTH->username = $username;
 
                     // If user exists login.
@@ -125,11 +123,9 @@ Route::add("/register", function () {
 
                 if (!empty($username) && !empty($password)) {
                     // Username and password are not empty, continue...
-                    $hashed_pass = password_hash($password, PASSWORD_BCRYPT, $BCRYPT_OPTIONS);
-                    //echo $password . " hashed:" . $hashed_pass;
 
                     // Fetch the account from database and assign it as the found.
-                    $USER->setUserInfo($username, $hashed_pass, null);
+                    $USER->setUserInfo($username, $password, null);
                     $AUTH->username = $username;
 
                     // If user doesn't exists.

@@ -1,4 +1,6 @@
 <?php
+
+// Include encrypter.
 include_once "Encrypter.php";
 
 /**
@@ -46,10 +48,20 @@ class User
      */
     public $cookie_lifetime = 5;
 
+    /**
+     * @var Encrypter The encrypter class.
+     */
+    private $Encrypter;
 
+
+    /**
+     * Create a new instance of User.
+     * @param $db_connection The database connection.
+     */
     public function __construct($db_connection)
     {
         $this->connection = $db_connection;
+        $this->Encrypter = new Encrypter();
     }
 
     /**
@@ -97,7 +109,7 @@ class User
             $query = "INSERT INTO $this->table (Login, Password, Selected, Created, LastLogin) VALUES (?,?,?,?,?)";
             $stmt = $this->connection->prepare($query);
             $stmt->bindValue(1, $this->username, PDO::PARAM_STR);
-            $stmt->bindValue(2, $this->password, PDO::PARAM_STR);
+            $stmt->bindValue(2, $this->getHashedPassword(), PDO::PARAM_STR);
             $stmt->bindValue(3, 0, PDO::PARAM_INT);
             $stmt->bindValue(4, time(), PDO::PARAM_INT);
             $stmt->bindValue(5, time(), PDO::PARAM_INT);
@@ -130,7 +142,7 @@ class User
         if ($this->userExists()) {
             $query = "UPDATE $this->table SET Password = ? WHERE Login = ?";
             $stmt = $this->connection->prepare($query);
-            $stmt->bindValue(1, $this->password, PDO::PARAM_STR);
+            $stmt->bindValue(1, $this->getHashedPassword(), PDO::PARAM_STR);
             $stmt->bindValue(2, $this->username, PDO::PARAM_STR);
             $stmt->execute();
 
@@ -172,7 +184,7 @@ class User
 
     /**
      * Check if the user exists.
-     * @return bool
+     * @return bool Returns if the user exists.
      */
     public function userExists()
     {
@@ -186,7 +198,7 @@ class User
 
     /**
      * Get the user token as json.
-     * @return false|string
+     * @return false|string Returns the user token in json format.
      */
     public function getUserTokenAsJson() {
         //$response = json_encode(array("action" => "login", "username" => $this->username, "password" => $this->password, "error"));
@@ -202,5 +214,21 @@ class User
         $response = $this->getUserTokenAsJson();
         // Set the cookie for the client to login properly.
         setcookie($this->cookie_name, $response, time() + (60 * $this->cookie_lifetime), "/");
+    }
+
+    /**
+     * Set the encryption info.
+     * @param $salt The salt (encryption key) to use for encrypting strings.
+     * @param $cost The cost of the encryption for BCRYPT.
+     */
+    public function setEncryptInfo($salt, $cost) {
+        $this->Encrypter->setEncryptInfo($salt,$cost);
+    }
+
+    /**
+     * Get the hashed password.
+     */
+    public function getHashedPassword() {
+        return $this->Encrypter->encryptString($this->password);
     }
 }
