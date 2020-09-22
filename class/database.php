@@ -1,16 +1,43 @@
 <?php
 
+/**
+ * The class that's responsible for communitcating with the database.
+ */
 class Database
 {
     /**
+     * REFERNCES
      * https://www.youtube.com/watch?v=OEWXbpUMODk
      */
 
+    /**
+     * @var string The host of the database.
+     */
     public $host = "";
+
+    /**
+     * @var string The database name of the database.
+     */
     public $db_name = "";
+
+    /**
+     * @var string The database user.
+     */
     public $db_user = "";
+
+    /**
+     * @var string The database user password.
+     */
     public $db_password = "";
+
+    /**
+     * @var int The port for the database.
+     */
     public $db_port = 3306;
+
+    /**
+     * @var The connection to the database.
+     */
     private $connection;
 
     /**
@@ -32,7 +59,7 @@ class Database
     }
 
     /**
-     * Set connection info.
+     * Set the connection info.
      *
      * @param $host The host.
      * @param $db_name Database name.
@@ -104,5 +131,13 @@ class Database
                 $templine = '';
             }
         }
+    }
+
+    /**
+     * @return Get the connection to the database.
+     */
+    public function getConnection()
+    {
+        return $this->connection;
     }
 }

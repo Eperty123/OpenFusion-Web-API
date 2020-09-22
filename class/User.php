@@ -1,26 +1,61 @@
 <?php
+include_once "Encrypter.php";
 
+/**
+ * The class that's primarily responsible for handling accounts.
+ */
 class User
 {
+    /**
+     * @var The id of the user.
+     */
     public $id;
+
+    /**
+     * @var The username of the user.
+     */
     public $username;
+
+    /**
+     * @var The password of this user.
+     */
     public $password;
+
+    /**
+     * @var The email of this user.
+     */
     public $email;
 
+    /**
+     * @var The table for the accounts.
+     */
     public $table;
+
+    /**
+     * @var The connection to the database.
+     */
     private $connection;
 
-    // Login cookie name.
+    /**
+     * @var string The login cookie name.
+     */
     public $cookie_name = "FFLogin";
 
-    // Login cookie lifetime in hours.
+    /**
+     * @var int The cookie life time for the login cookie.
+     */
     public $cookie_lifetime = 5;
+
 
     public function __construct($db_connection)
     {
         $this->connection = $db_connection;
     }
 
+    /**
+     * Get all users.
+     * @return mixed All users.
+     */
     public function getAllUserInfo()
     {
         $query = "SELECT * FROM $this->table";
@@ -30,6 +65,12 @@ class User
         return $stmt;
     }
 
+    /**
+     * Set userinfo.
+     * @param $user Username.
+     * @param $password Password.
+     * @param $email Email.
+     */
     public function setUserInfo($user, $password, $email)
     {
         $this->username = $user;
@@ -37,11 +78,19 @@ class User
         $this->email = $email;
     }
 
+    /**
+     * Sets the table name for accounts.
+     * @param $tableName Table name for the accounts.
+     */
     public function setTable($tableName)
     {
         $this->table = $tableName;
     }
 
+    /**
+     * Create user.
+     * @return mixed Result.
+     */
     public function createUser()
     {
         if (!$this->userExists()) {
@@ -58,6 +107,10 @@ class User
         }
     }
 
+    /**
+     * Get the user.
+     * @return mixed User|null.
+     */
     public function getUser()
     {
         $query = "SELECT * FROM $this->table WHERE Login = ?";
@@ -68,6 +121,10 @@ class User
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Update user.
+     * @return mixed User|null
+     */
     public function updateUser()
     {
         if ($this->userExists()) {
@@ -81,6 +138,10 @@ class User
         }
     }
 
+    /**
+     * Updte the user login session.
+     * @return mixed
+     */
     public function updateUserLoginSession() {
         if ($this->userExists()) {
             $query = "UPDATE $this->table SET LastLogin = ? WHERE Login = ?";
@@ -93,6 +154,10 @@ class User
         }
     }
 
+    /**
+     * Delete user.
+     * @return mixed
+     */
     public function deleteUser()
     {
         if ($this->userExists()) {
@@ -105,6 +170,10 @@ class User
         }
     }
 
+    /**
+     * Check if the user exists.
+     * @return bool
+     */
     public function userExists()
     {
         $query = "SELECT * FROM $this->table WHERE Login = ?";
@@ -115,12 +184,19 @@ class User
         return isVariableSet($stmt->fetch(PDO::FETCH_ASSOC));
     }
 
+    /**
+     * Get the user token as json.
+     * @return false|string
+     */
     public function getUserTokenAsJson() {
         //$response = json_encode(array("action" => "login", "username" => $this->username, "password" => $this->password, "error"));
         $response = json_encode(array("action" => "login", "username" => $this->username, "error"));
         return $response;
     }
 
+    /**
+     * Set the user token.
+     */
     public function setuserTokenSession()
     {
         $response = $this->getUserTokenAsJson();
