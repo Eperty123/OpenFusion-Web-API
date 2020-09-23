@@ -217,12 +217,11 @@ class User
     }
 
     /**
-     * Set the encryption info.
-     * @param $salt The salt (encryption key) to use for encrypting strings.
-     * @param $cost The cost of the encryption for BCRYPT.
+     * Set the encryption key.
+     * @param $key The encryption key to use for encrypting strings.
      */
-    public function setEncryptInfo($salt, $cost) {
-        $this->Encrypter->setEncryptInfo($salt,$cost);
+    public function setEncryptionKey($key) {
+        $this->Encrypter->setEncryptionKey($key);
     }
 
     /**

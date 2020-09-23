@@ -3,7 +3,7 @@
 class Encrypter {
 
     public $salt = "Justin Bieber";
-    public $cost = 11;
+    private $cost = 11;
 
     public function __construct()
     {
@@ -25,13 +25,12 @@ class Encrypter {
     }
 
     /**
-     * Set encrypter info.
-     * @param $salt The salt (encryption key) to use.
-     * @param $cost The cost for BCRYPT.
+     * Set the encryption key.
+     * @param $key The encryption key.
      */
-    public function setEncryptInfo($salt, $cost) {
-        $this->salt = $salt;
-        $this->cost = $cost;
+    public function setEncryptionKey($key)
+    {
+        $this->salt = $key;
     }
 
     /**

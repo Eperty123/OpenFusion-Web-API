@@ -73,7 +73,7 @@ Route::add("/login", function () {
                         $response = json_encode(array("message" => "You have been logged in."));
                         gotoPage("game");
                     } // If not...
-                    else $response = json_encode(array("error" => "No matching account was found."));
+                    else $response = json_encode(array("error" => "No matching account is found. Make sure the username and password are correct."));
 
                 } // If they are...
                 else $response = json_encode(array("error" => "No username and password supplied."));
@@ -216,13 +216,13 @@ Route::add("/logout", function () {
 Route::add("/serverinfo", function () {
     global $SERVER_NAME;
     global $LOGIN_IP;
-    global $GAMEFILES_LINK;
+    global $CDN_LINK;
     global $UNITY_FILE;
 
     $response = "";
 
     $server = new Server();
-    $server->setServerInfo($SERVER_NAME, $LOGIN_IP, $GAMEFILES_LINK, $UNITY_FILE);
+    $server->setServerInfo($SERVER_NAME, $LOGIN_IP, $CDN_LINK, $UNITY_FILE);
     $response = $server->toJson();
 
     // Set the header depending on whether the response is empty or not.
@@ -236,4 +236,4 @@ Route::add("/serverinfo", function () {
 
 
 // Use the path as base path for urls. This must lead to the php file.
-Route::run(APIPATH);
+Route::run(API_PATH);
