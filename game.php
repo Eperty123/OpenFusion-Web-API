@@ -9,10 +9,10 @@ include "inc/helper.php";
 <head>
     <title>OpenFusion</title>
     <!-- Css -->
-    <link rel="stylesheet" href="<?php echo BASEPATH . 'css/style.css'?>"/>
+    <link rel="stylesheet" href="<?php echo '/css/style.css'?>"/>
 
     <!-- Scripts -->
-    <script type="text/javascript" src="<?php echo BASEPATH . 'js/unity.js'?>"></script>
+    <script type="text/javascript" src="<?php echo '/js/unity.js'?>"></script>
 </head>
 <body onresize="OnResize()">
 <div id="container">
