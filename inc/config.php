@@ -8,7 +8,14 @@ require_once "class/User.php";
 # API configuration
 # ==================
 
+// The path to your installation.
+// If it's in a subfolder like localhost/openfusion
+// then the path is "/openfusion", otherwise "/".
+$BASE_PATH = "/openfusion";
+
 // The virtual path to the api.
+// You'll have to access the api through the base path
+// and then "/api", example: "localhost/openfusion/api/".
 $API_PATH = "/api/";
 
 // This is the encryption key used to encrypt passwords.

@@ -236,4 +236,4 @@ Route::add("/serverinfo", function () {
 
 
 // Use the path as base path for urls. This must lead to the php file.
-Route::run(API_PATH);
+Route::run(BASE_PATH . API_PATH);
