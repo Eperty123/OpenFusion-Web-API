@@ -3,8 +3,9 @@ DirectoryIndex api.php
 # enable apache rewrite engine
 RewriteEngine on
 
-# set your rewrite base
-# Edit this in your init method too if you script lives in a subfolder
+# The path to your installation.
+# If it's in a subfolder like localhost/openfusion
+# then the path is "/openfusion", otherwise "/".
 RewriteBase /openfusion
 
 # Deliver the folder or file directly if it exists on the server

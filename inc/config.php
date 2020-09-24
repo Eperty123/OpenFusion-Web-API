@@ -9,8 +9,10 @@ require_once "class/User.php";
 # ==================
 
 // The path to your installation.
-// If it's in a subfolder like localhost/openfusion
+// If it's in a subfolder like localhost/openfusion,
 // then the path is "/openfusion", otherwise "/".
+// Don't forget to change the RewriteBase in .htaccess too
+// to the same value.
 $BASE_PATH = "/openfusion";
 
 // The virtual path to the api.
